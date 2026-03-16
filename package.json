@@ -1,0 +1,13 @@
+{
+  "name": "crucible",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Decentralized automated strategy competition platform",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces --if-present"
+  }
+}

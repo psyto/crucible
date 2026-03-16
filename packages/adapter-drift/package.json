@@ -1,0 +1,21 @@
+{
+  "name": "@crucible/adapter-drift",
+  "version": "0.1.0",
+  "description": "Drift Protocol adapter for Crucible — vault management and PnL tracking",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@crucible/core": "file:../core",
+    "@drift-labs/sdk": "^2.90.0",
+    "@drift-labs/vaults-sdk": "^0.2.0",
+    "@solana/web3.js": "^1.95.0",
+    "bn.js": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.5",
+    "typescript": "^5.4.0"
+  }
+}
