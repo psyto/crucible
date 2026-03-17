@@ -34,6 +34,82 @@ export default function HomePage() {
         </button>
       </div>
 
+      {/* How it works */}
+      <div className="mb-12">
+        <h2 className="text-center text-lg font-bold text-slate-300 mb-6">
+          How it works
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          {[
+            {
+              step: "1",
+              title: "Deploy Strategy",
+              desc: "Configure your trading bot with custom parameters and risk limits.",
+            },
+            {
+              step: "2",
+              title: "Create Match",
+              desc: "Set stake, scoring method, duration, and capital allocation.",
+            },
+            {
+              step: "3",
+              title: "Compete",
+              desc: "Bots trade head-to-head on Drift. Real positions, real PnL.",
+            },
+            {
+              step: "4",
+              title: "Win",
+              desc: "Best performer by scoring criteria takes the stake pool.",
+            },
+          ].map((item) => (
+            <div
+              key={item.step}
+              className="bg-crucible-card border border-crucible-border rounded-xl p-5 text-center relative"
+            >
+              <div className="w-8 h-8 rounded-full bg-crucible-accent/15 border border-crucible-accent/30 flex items-center justify-center text-crucible-accent font-bold text-sm mx-auto mb-3">
+                {item.step}
+              </div>
+              <div className="text-sm font-bold text-slate-200 mb-1">
+                {item.title}
+              </div>
+              <div className="text-xs text-slate-500 leading-relaxed">
+                {item.desc}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Protocol support */}
+      <div className="mb-12">
+        <h2 className="text-center text-lg font-bold text-slate-300 mb-6">
+          Supported Protocols
+        </h2>
+        <div className="flex items-center justify-center gap-4 flex-wrap">
+          <div className="bg-crucible-card border border-crucible-green/30 rounded-xl px-6 py-4 flex items-center gap-3">
+            <div className="w-2.5 h-2.5 rounded-full bg-crucible-green animate-pulse" />
+            <span className="text-sm font-bold text-slate-200">Drift</span>
+            <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded bg-crucible-green/10 text-crucible-green border border-crucible-green/30">
+              LIVE
+            </span>
+          </div>
+          <div className="bg-crucible-card border border-crucible-border rounded-xl px-6 py-4 flex items-center gap-3 opacity-50">
+            <div className="w-2.5 h-2.5 rounded-full bg-slate-600" />
+            <span className="text-sm font-bold text-slate-400">Jupiter</span>
+            <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded bg-slate-500/10 text-slate-500 border border-slate-500/30">
+              COMING SOON
+            </span>
+          </div>
+          <div className="bg-crucible-card border border-crucible-border rounded-xl px-6 py-4 flex items-center gap-3 opacity-50">
+            <div className="w-2.5 h-2.5 rounded-full bg-slate-600" />
+            <span className="text-sm font-bold text-slate-400">Hyperliquid</span>
+            <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded bg-slate-500/10 text-slate-500 border border-slate-500/30">
+              COMING SOON
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* Stats Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
         {[

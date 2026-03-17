@@ -1,0 +1,893 @@
+{
+  "address": "Guq3DZZQ1PfAU49TG7WuEweSp6bjko8yVMdH3a3Hszfb",
+  "metadata": {
+    "name": "crucible_escrow",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "On-chain escrow for Crucible match stakes"
+  },
+  "instructions": [
+    {
+      "name": "accept_match",
+      "docs": [
+        "Accept a match. Opponent deposits matching stake."
+      ],
+      "discriminator": [
+        47,
+        107,
+        76,
+        149,
+        208,
+        223,
+        186,
+        191
+      ],
+      "accounts": [
+        {
+          "name": "opponent",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  114,
+                  117,
+                  99,
+                  105,
+                  98,
+                  108,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "match_escrow",
+          "writable": true
+        },
+        {
+          "name": "escrow_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  116,
+                  99,
+                  104,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "match_escrow"
+              }
+            ]
+          }
+        },
+        {
+          "name": "opponent_token",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancel_match",
+      "docs": [
+        "Cancel an unaccepted match. Returns stake to challenger."
+      ],
+      "discriminator": [
+        142,
+        136,
+        247,
+        45,
+        92,
+        112,
+        180,
+        83
+      ],
+      "accounts": [
+        {
+          "name": "challenger",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "match_escrow",
+          "writable": true
+        },
+        {
+          "name": "escrow_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  116,
+                  99,
+                  104,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "match_escrow"
+              }
+            ]
+          }
+        },
+        {
+          "name": "challenger_token",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_match",
+      "docs": [
+        "Create a match escrow. Challenger deposits stake."
+      ],
+      "discriminator": [
+        107,
+        2,
+        184,
+        145,
+        70,
+        142,
+        17,
+        165
+      ],
+      "accounts": [
+        {
+          "name": "challenger",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  114,
+                  117,
+                  99,
+                  105,
+                  98,
+                  108,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "match_escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  116,
+                  99,
+                  104
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "config.match_count",
+                "account": "CrucibleConfig"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  116,
+                  99,
+                  104,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "match_escrow"
+              }
+            ]
+          }
+        },
+        {
+          "name": "challenger_token",
+          "writable": true
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "CreateMatchParams"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "initialize",
+      "docs": [
+        "Initialize the global Crucible config. Called once by admin."
+      ],
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  114,
+                  117,
+                  99,
+                  105,
+                  98,
+                  108,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "usdc_mint"
+        },
+        {
+          "name": "fee_recipient"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "InitializeParams"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "settle_match",
+      "docs": [
+        "Settle a match. Coordinator submits scores, escrow pays winner."
+      ],
+      "discriminator": [
+        71,
+        124,
+        117,
+        96,
+        191,
+        217,
+        116,
+        24
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  114,
+                  117,
+                  99,
+                  105,
+                  98,
+                  108,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "match_escrow",
+          "writable": true
+        },
+        {
+          "name": "escrow_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  116,
+                  99,
+                  104,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "match_escrow"
+              }
+            ]
+          }
+        },
+        {
+          "name": "winner_token",
+          "docs": [
+            "Winner's token account."
+          ],
+          "writable": true
+        },
+        {
+          "name": "loser_token",
+          "docs": [
+            "Loser's token account (for draw refunds)."
+          ],
+          "writable": true
+        },
+        {
+          "name": "fee_token",
+          "docs": [
+            "Fee recipient."
+          ],
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "SettleMatchParams"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CrucibleConfig",
+      "discriminator": [
+        95,
+        6,
+        25,
+        254,
+        238,
+        108,
+        48,
+        24
+      ]
+    },
+    {
+      "name": "MatchEscrow",
+      "discriminator": [
+        41,
+        253,
+        245,
+        149,
+        7,
+        243,
+        203,
+        139
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidMatchState",
+      "msg": "Match is not in the expected state"
+    },
+    {
+      "code": 6001,
+      "name": "MatchNotExpired",
+      "msg": "Match has not yet expired"
+    },
+    {
+      "code": 6002,
+      "name": "MatchExpired",
+      "msg": "Match challenge has expired"
+    },
+    {
+      "code": 6003,
+      "name": "StakeTooLow",
+      "msg": "Stake below minimum"
+    },
+    {
+      "code": 6004,
+      "name": "StakeTooHigh",
+      "msg": "Stake above maximum"
+    },
+    {
+      "code": 6005,
+      "name": "SelfMatch",
+      "msg": "Cannot match against yourself"
+    },
+    {
+      "code": 6006,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    },
+    {
+      "code": 6007,
+      "name": "MathOverflow",
+      "msg": "Arithmetic overflow"
+    }
+  ],
+  "types": [
+    {
+      "name": "CreateMatchParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "scoring",
+            "type": {
+              "defined": {
+                "name": "ScoringMethod"
+              }
+            }
+          },
+          {
+            "name": "protocol_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "duration",
+            "type": "u32"
+          },
+          {
+            "name": "stake_amount",
+            "type": "u64"
+          },
+          {
+            "name": "capital_amount",
+            "type": "u64"
+          },
+          {
+            "name": "max_leverage",
+            "type": "u8"
+          },
+          {
+            "name": "challenger_vault",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "opponent",
+            "docs": [
+              "Specific opponent, or Pubkey::default for open challenge."
+            ],
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CrucibleConfig",
+      "docs": [
+        "Global configuration for Crucible escrow."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_recipient",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "min_stake",
+            "type": "u64"
+          },
+          {
+            "name": "max_stake",
+            "type": "u64"
+          },
+          {
+            "name": "usdc_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "match_count",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "InitializeParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "min_stake",
+            "type": "u64"
+          },
+          {
+            "name": "max_stake",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MatchEscrow",
+      "docs": [
+        "On-chain match escrow — holds stakes and records results."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "docs": [
+              "Unique match ID."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "challenger",
+            "docs": [
+              "Challenger wallet."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "opponent",
+            "docs": [
+              "Opponent wallet (default if open)."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "state",
+            "docs": [
+              "Current state."
+            ],
+            "type": {
+              "defined": {
+                "name": "MatchState"
+              }
+            }
+          },
+          {
+            "name": "scoring",
+            "docs": [
+              "Scoring method."
+            ],
+            "type": {
+              "defined": {
+                "name": "ScoringMethod"
+              }
+            }
+          },
+          {
+            "name": "protocol_id",
+            "docs": [
+              "Protocol identifier (hash of \"drift\", \"jupiter\", etc.)"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "duration",
+            "docs": [
+              "Duration in seconds."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "stake_amount",
+            "docs": [
+              "Stake per side (USDC, 6 decimals)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "capital_amount",
+            "docs": [
+              "Competition capital per side (may differ from stake)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "max_leverage",
+            "docs": [
+              "Max leverage."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "challenger_vault",
+            "docs": [
+              "Challenger vault ID (protocol-specific, stored as 32 bytes)."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "opponent_vault",
+            "docs": [
+              "Opponent vault ID."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "created_at",
+            "docs": [
+              "Timestamps."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "started_at",
+            "type": "i64"
+          },
+          {
+            "name": "ends_at",
+            "type": "i64"
+          },
+          {
+            "name": "challenger_score",
+            "docs": [
+              "Final scores (basis points, set at settlement)."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "opponent_score",
+            "type": "i64"
+          },
+          {
+            "name": "winner",
+            "docs": [
+              "Winner (default if not settled or draw)."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "escrow_bump",
+            "docs": [
+              "PDA bumps."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MatchState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Created"
+          },
+          {
+            "name": "Active"
+          },
+          {
+            "name": "Settling"
+          },
+          {
+            "name": "Completed"
+          },
+          {
+            "name": "Cancelled"
+          },
+          {
+            "name": "Draw"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ScoringMethod",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "PnlPercent"
+          },
+          {
+            "name": "Sharpe"
+          },
+          {
+            "name": "RiskAdjusted"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SettleMatchParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "challenger_score",
+            "type": "i64"
+          },
+          {
+            "name": "opponent_score",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ]
+}
