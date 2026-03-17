@@ -6,10 +6,10 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-crucible_escrow = "CrucEscrXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+crucible_escrow = "Guq3DZZQ1PfAU49TG7WuEweSp6bjko8yVMdH3a3Hszfb"
 
 [programs.devnet]
-crucible_escrow = "CrucEscrXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+crucible_escrow = "Guq3DZZQ1PfAU49TG7WuEweSp6bjko8yVMdH3a3Hszfb"
 
 [registry]
 url = "https://api.apr.dev"

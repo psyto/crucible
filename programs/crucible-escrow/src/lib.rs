@@ -5,7 +5,7 @@ pub mod state;
 
 use instructions::*;
 
-declare_id!("CrucEscrXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+declare_id!("Guq3DZZQ1PfAU49TG7WuEweSp6bjko8yVMdH3a3Hszfb");
 
 #[program]
 pub mod crucible_escrow {
