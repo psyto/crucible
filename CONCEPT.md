@@ -1,6 +1,8 @@
-# Crucible
+# Crucible -- Product Design
 
 A decentralized platform where automated DeFi strategies compete head-to-head with real capital. Protocol-agnostic, chain-agnostic.
+
+> **Status:** MVP complete. Escrow deployed on Solana devnet. Live competition ran on Drift with two funded vaults ($1,000 USDC each), bots trading SOL-PERP, scored by PnL%. Drift's existing competition is a volume-weighted raffle — Crucible fills the skill-based gap.
 
 ## The Problem
 
@@ -155,12 +157,21 @@ Two models depending on chain:
 5. **Settlement** — Winner's vault receives stakes
 6. **UI** — Challenge board, live match viewer, leaderboard
 
-### What the MVP Proves
+### What the MVP Proves (Verified on Devnet)
 
-- Automated strategies can compete head-to-head with real capital
-- The adapter interface works — Drift is just the first implementation
-- The scoring engine produces meaningful, verifiable results
-- The UX is compelling enough for strategy operators to participate
+- Automated strategies can compete head-to-head with real capital -- DONE
+- Drift vault creation, deposit, delegate trading -- DONE
+- PnL reading via Drift SDK (User.getNetUsdValue) -- DONE
+- The scoring engine produces meaningful, verifiable results -- DONE (15 tests)
+- Crucible escrow holds and distributes stakes -- DONE
+- Frontend with wallet integration -- DONE
+
+Live competition result:
+```
+Vault A: $999.90 | LONG 0.5 SOL | PnL: -0.0099%
+Vault B: $999.96 | SHORT 0.5 SOL | PnL: -0.0038%
+Winner: Vault B
+```
 
 ### MVP Does NOT Include
 
