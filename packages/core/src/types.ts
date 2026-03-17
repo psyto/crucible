@@ -165,6 +165,25 @@ export interface MatchConfig {
   allowedMarkets?: string[];
   /** Maximum leverage allowed */
   maxLeverage: number;
+
+  // ─── Anti-MEV Guardrails ───────────────────────────────────────────────────
+  // These prevent meta-strategies (counter-trading opponents' visible positions)
+  // from dominating over genuine algorithmic skill.
+
+  /**
+   * Minimum number of distinct markets a strategy must trade.
+   * Prevents pure "mirror and inverse" strategies on a single market.
+   * Default: 1 (no restriction). Recommended: 3 for serious competitions.
+   */
+  minMarketDiversity: number;
+
+  /**
+   * Random delay window in seconds added to the match start.
+   * Actual start = scheduled start + random(0, startDelayWindow).
+   * Makes it harder to prepare targeted counter-strategies.
+   * Default: 0. Recommended: 3600 (1 hour) for longer matches.
+   */
+  startDelayWindow: number;
 }
 
 export interface Match {
@@ -212,7 +231,14 @@ export interface MatchScore {
   avgLeverage: number;
   /** Final equity */
   finalEquityUsd: number;
-  /** Composite score (method-dependent) */
+  /** Number of distinct markets traded */
+  marketDiversity: number;
+  /**
+   * Penalty applied for insufficient market diversity.
+   * 0 = no penalty. Positive value = score reduction.
+   */
+  diversityPenalty: number;
+  /** Composite score (method-dependent, after penalties) */
   compositeScore: number;
 }
 

@@ -190,6 +190,61 @@ Winner: Vault B
 - PnL from Drift user account state
 - Keeper execution for limit orders
 
+---
+
+## Adversarial Robustness: Why MEV Is a Feature
+
+### The Problem
+
+On-chain positions are visible. A "meta-strategy" that monitors an opponent's orders and counter-trades them could dominate pure algorithmic skill. This is the primary objection to transparent strategy competitions.
+
+### The Reframe
+
+A strategy that only works when no one is watching isn't a good strategy. In real DeFi markets:
+- Your orders ARE visible on-chain
+- Other participants DO counter-trade you
+- MEV bots DO front-run you
+- Liquidity conditions change based on your own market impact
+
+A competition that includes these pressures is **more realistic, not less**. Crucible tests battle-hardened strategies — the kind that survive adversarial environments.
+
+### Guardrails That Make It Fair
+
+**1. Sharpe-based scoring naturally penalizes counter-trading.**
+
+A meta-strategy that mirrors and inverses an opponent's positions takes on the same volatility. If both sides are just counter-trading, both have high variance and LOW Sharpe. The predator doesn't win on risk-adjusted metrics unless they have genuine skill beyond position copying.
+
+Implemented: `computeSharpe()` in the scoring engine. Verified by test: "counter-trading strategy has lower Sharpe than smooth strategy."
+
+**2. Market diversity requirement prevents single-market exploitation.**
+
+Matches can require strategies to trade across N distinct markets (e.g., SOL-PERP + ETH-PERP + BTC-PERP). A pure "mirror and inverse" strategy on one market gets a diversity penalty that reduces its composite score.
+
+Implemented: `computeMarketDiversity()` and `computeDiversityPenalty()`. Configurable via `MatchConfig.minMarketDiversity`. Default: 1 (no restriction). Recommended: 3 for serious competitions.
+
+Verified by test: "single-market predator loses to diverse strategy at same PnL."
+
+**3. Random start delay prevents targeted pre-positioning.**
+
+Matches start at a random time within a configurable window (e.g., +0 to +60 minutes). Harder to prepare a counter-strategy if you don't know exactly when position scoring begins.
+
+Implemented: `MatchConfig.startDelayWindow`. Applied by the match coordinator.
+
+**4. Longer durations favor genuine strategies.**
+
+In a 1-week Sharpe competition, a counter-trading meta-strategy gets wiped by market moves it didn't anticipate. Short-term counter-trading works for minutes, not days. Crucible's recommended competition format is 3-7 days with Sharpe scoring.
+
+### Scoring Tiebreakers Reward Robustness
+
+When composite scores are close:
+1. Higher market diversity wins (multi-market > single-market)
+2. Lower max drawdown wins (discipline)
+3. Fewer trades wins (conviction over churn)
+
+This creates a clear hierarchy: diverse, disciplined, convicted strategies beat narrow, volatile, churning ones — even if raw PnL is similar.
+
+---
+
 ### Phase 2: Multi-Venue Solana
 - Jupiter Perps adapter (JLP positions)
 - Combined vault that trades across Drift + Jupiter
