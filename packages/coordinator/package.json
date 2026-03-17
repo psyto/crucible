@@ -1,0 +1,29 @@
+{
+  "name": "@crucible/coordinator",
+  "version": "0.1.0",
+  "description": "Match coordinator — orchestrates competitions, polls snapshots, triggers settlement",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@crucible/core": "file:../core",
+    "@crucible/adapter-drift": "file:../adapter-drift",
+    "@coral-xyz/anchor": "^0.30.1",
+    "@solana/web3.js": "^1.95.0",
+    "@solana/spl-token": "^0.4.0",
+    "ws": "^8.16.0",
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/ws": "^8.5.10",
+    "@types/node": "^20.11.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}
