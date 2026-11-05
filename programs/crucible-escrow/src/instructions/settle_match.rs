@@ -48,6 +48,16 @@ pub struct SettleMatch<'info> {
 pub fn handler(ctx: Context<SettleMatch>, params: SettleMatchParams) -> Result<()> {
     let escrow = &ctx.accounts.match_escrow;
 
+    // Winner/loser token accounts must belong to the match's players
+    // (on a draw, winner_token is the challenger's and loser_token the opponent's)
+    let (winner, loser) = if params.challenger_score >= params.opponent_score {
+        (escrow.challenger, escrow.opponent)
+    } else {
+        (escrow.opponent, escrow.challenger)
+    };
+    require_keys_eq!(ctx.accounts.winner_token.owner, winner, CrucibleError::Unauthorized);
+    require_keys_eq!(ctx.accounts.loser_token.owner, loser, CrucibleError::Unauthorized);
+
     let clock = Clock::get()?;
     require!(clock.unix_timestamp >= escrow.ends_at, CrucibleError::MatchNotExpired);
 
